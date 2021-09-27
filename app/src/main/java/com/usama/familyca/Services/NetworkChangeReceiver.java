@@ -1,17 +1,14 @@
 package com.usama.familyca.Services;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -19,12 +16,11 @@ import com.usama.familyca.R;
 
 public class NetworkChangeReceiver extends BroadcastReceiver {
 
+    @SuppressLint("UnsafeProtectedBroadcastReceiver")
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
-            if (isOnline(context)) {
-
-            } else {
+            if (!isOnline(context)) {
                 loadErrorDialogUpdate(context);
             }
         } catch (NullPointerException e) {
@@ -46,6 +42,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
 
     AlertDialog alertDialog;
 
+    @SuppressLint("InflateParams")
     private void loadErrorDialogUpdate(Context context) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -60,12 +57,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
         alertDialog = builder.create();
         alertDialog.setCancelable(true);
 
-        buttonAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertDialog.dismiss();
-            }
-        });
+        buttonAction.setOnClickListener(view1 -> alertDialog.dismiss());
 
         alertDialog.show();
 
